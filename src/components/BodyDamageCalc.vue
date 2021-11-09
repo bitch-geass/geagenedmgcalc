@@ -14,7 +14,7 @@
               <div>
                 <input
                   v-model="inAtack"
-                  type="text"
+                  type="tel"
                   @input="calcAtk()"
                   class="input-control"
                 />
@@ -27,7 +27,7 @@
               <div>
                 <input
                   v-model="inAtackCl"
-                  type="text"
+                  type="tel"
                   @input="calcAtk()"
                   class="input-control"
                 />
@@ -40,7 +40,7 @@
               <div>
                 <input
                   v-model="inRate"
-                  type="text"
+                  type="tel"
                   @input="calcRate()"
                   class="input-control"
                 />
@@ -48,12 +48,12 @@
             </td>
           </tr>
           <tr>
-            <th>攻撃力バフ(%)</th>
+            <th>攻撃バフ(%)</th>
             <td>
               <div>
                 <input
                   v-model="inAtackbuf"
-                  type="text"
+                  type="tel"
                   @input="calcAtk()"
                   class="input-control"
                 />
@@ -66,7 +66,7 @@
               <div>
                 <input
                   v-model="inCribuf"
-                  type="text"
+                  type="tel"
                   @input="calcCribuf()"
                   class="input-control"
                 />
@@ -79,7 +79,7 @@
               <div>
                 <input
                   v-model="inHits"
-                  type="text"
+                  type="tel"
                   @input="calcDmg()"
                   class="input-control"
                 />
@@ -88,9 +88,9 @@
           </tr>
         </tbody>
       </table>
-    <!--/div-->
+    </div>
     <!--防御側-->
-    <!--div class="container-status-enm"-->
+    <div class="container-status-enm">
       <table class="table-status">
         <tbody>
           <tr>
@@ -99,7 +99,7 @@
               <div>
                 <input
                   v-model="inDf"
-                  type="text"
+                  type="tel"
                   @input="calcDf()"
                   class="input-control"
                 />
@@ -112,7 +112,7 @@
               <div>
                 <input
                   v-model="inDfbuf"
-                  type="text"
+                  type="tel"
                   @input="calcDf()"
                   class="input-control"
                 />
@@ -125,7 +125,7 @@
               <div>
                 <input
                   v-model="inDfDebuf"
-                  type="text"
+                  type="tel"
                   @input="calcDf()"
                   class="input-control"
                 />
@@ -135,37 +135,6 @@
           <tr>
             <th>実防御力</th>
             <td>{{ defense }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--dmg計算式-->
-    <div class="container-calc">
-      <table class="table-calc">
-        <thead>
-          <tr>
-            <th>攻撃力</th>
-            <th>×</th>
-            <th>係数</th>
-            <th>×</th>
-            <th>倍率</th>
-            <th>×</th>
-            <th>クリ倍率</th>
-            <th>÷</th>
-            <th>攻撃回数</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ atkSum }}</td>
-            <td></td>
-            <td>{{ coeff }}</td>
-            <td></td>
-            <td>{{ rate }}</td>
-            <td></td>
-            <td>{{ cribuf }}</td>
-            <td></td>
-            <td>{{ inHits }}</td>
           </tr>
         </tbody>
       </table>
@@ -183,6 +152,29 @@
           <tr>
             <td>{{ dmg }}</td>
             <td>{{ cridmg }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--dmg計算式-->
+    <div class="container-calc">
+      <table class="table-calc">
+        <thead>
+          <tr>
+            <th>攻撃力</th>
+            <th>係数</th>
+            <th>倍率</th>
+            <th>クリ倍率</th>
+            <th>回数</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ atkSum }}</td>
+            <td><p id="td-coeff">{{ coeff }}</p></td>
+            <td>{{ rate }}</td>
+            <td>{{ cribuf }}</td>
+            <td>{{ inHits }}</td>
           </tr>
         </tbody>
       </table>
@@ -222,89 +214,111 @@ export default {
   methods: {
     calcAtk() {
       //空白ならゼロとか。
-      this.atkSum =
-        (1.0 + parseInt(this.inAtackbuf) / 100.0)
-        * (parseInt(this.inAtack) + parseInt(this.inAtackCl));
+      this.atkSum = (
+        (1.0 + parseInt(this.inAtackbuf) / 100.0) *
+        (parseInt(this.inAtack) + parseInt(this.inAtackCl))
+      ).toFixed(1);
       this.calcCoeff();
     },
     calcDf() {
       //TODO バフとデバフの順序が不明
-      this.defense =
-        (1 + parseInt(this.inDfbuf) / 100 - parseInt(this.inDfDebuf) / 100)
-        * parseInt(this.inDf);
+      this.defense = (
+        (1 + parseInt(this.inDfbuf) / 100 - parseInt(this.inDfDebuf) / 100) *
+        parseInt(this.inDf)
+      ).toFixed(1);
       this.calcCoeff();
     },
     calcCoeff() {
-        this.coeff = this.atkSum / (this.defense * 5);
-        if(this.coeff > 2) {
-          this.coeff = 2;
-        } 
-        else if(this.coeff < 0.1) {
-          this.coeff = 0.1;
-        }
-        this.calcDmg();
+      this.coeff = this.getCoeff(this.atkSum, this.defense).toFixed(3);
+      this.calcDmg();
+    },
+    getCoeff(atk, def) {
+      var tmpCoeff = atk / (def * 5);
+      if (tmpCoeff > 2) {
+        tmpCoeff = 2;
+      } else if (this.coeff < 0.1) {
+        tmpCoeff = 0.1;
+      }
+      return tmpCoeff;
     },
     calcRate() {
-      // 同盟施設で1.1倍
-      this.rate = parseInt(this.inRate) * 1.1 / 100;
+      this.rate = this.getRate(this.inRate).toFixed(3);
       this.calcDmg();
+    },
+    getRate(inRate){
+      // 同盟施設で1.1倍
+      return (parseInt(inRate) * 1.1) / 100;
     },
     calcCribuf() {
       // クリティカル150％ + 同盟施設で10％追加
-      this.cribuf = (parseInt(this.inCribuf) + 160 )/ 100;
+      this.cribuf = this.getCribuf(this.inCribuf).toFixed(2);
       this.calcDmg();
     },
+    getCribuf(inCribuf) {
+      // クリティカル150％ + 同盟施設で10％追加
+      return (parseInt(inCribuf) + 160) / 100;
+    },
     calcDmg() {
-      this.dmg = this.atkSum * this.coeff * this.rate / this.inHits;
-      this.cridmg = this.dmg * this.cribuf;
-    }
+      var tmpDmg = (this.atkSum * this.getCoeff(this.atkSum, this.defense) * this.getRate(this.inRate)) / this.inHits;
+      this.dmg = tmpDmg.toFixed(0);
+      this.cridmg = (tmpDmg * this.getCribuf(this.inCribuf)).toFixed(0);
+    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.app {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
 /* ステータス */
 .container-status {
-  display: flex;
+  display: inline-block;
   padding: 16px 1%;
   text-align: left;
- /* float: left; */
 }
-.container-status table{
+.container-status table {
   border-collapse: separate;
   border-spacing: 0px 1px;
   margin: 0 auto;
 }
-.container-status td,th{
+.container-status td,
+th {
   padding: 1px;
+  width: 100px;
 }
-.container-status th{
+.container-status th {
   background: #2695c5fd;
   color: #fff;
 }
-.container-status td{
+.container-status td {
   background: #f1fafe;
 }
 /* 敵ステータステーブル */
 .container-status-enm {
+  display: inline-block;
   padding: 16px 1%;
   text-align: left;
-  /*float: left;*/
+  vertical-align: top;
 }
-.container-status-enm table{
+.container-status-enm table {
   border-collapse: separate;
   border-spacing: 0px 1px;
   margin: 0 auto;
 }
-.container-status-enm td,th{
-  padding: 5px;
+.container-status-enm td,
+th {
+  padding: 1px;
+  width: 100px;
 }
-.container-status-enm th{
+.container-status-enm th {
   background: #e97b93fd;
   color: #fff;
 }
-.container-status-enm td{
+.container-status-enm td {
   background: #f1fafe;
 }
 
@@ -313,20 +327,21 @@ export default {
   padding: 16px 1%;
   text-align: center;
 }
-.container-calc table{
+.container-calc table {
   align-content: left;
   border-collapse: separate;
   border-spacing: 0px 1px;
   margin: 0 auto;
 }
-.container-calc td,th{
+.container-calc td,
+th {
   padding: 5px;
 }
-.container-calc th{
+.container-calc th {
   background: #0a101385;
   color: #fff;
 }
-.container-calc td{
+.container-calc td {
   background: #f1fafe;
 }
 
@@ -335,28 +350,25 @@ export default {
 }
 .table tr td {
   vertical-align: middle;
-}
-.table tr td {
   word-wrap: break-word;
 }
 
 input {
   font: 15px/24px sans-serif;
-	box-sizing: border-box;
-	width: 100%;
-	padding: 0.3em;
-	transition: 0.3s;
-	letter-spacing: 1px;
-	color: #2e2d2dd7;
-	border: 1px solid #ffffff;
-	box-shadow: 1px 1px 2px 0 #707070 inset;
-	border-radius: 4px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.3em;
+  transition: 0.3s;
+  letter-spacing: 1px;
+  color: #2e2d2dd7;
+  border: 1px solid #ffffff;
+  box-shadow: 1px 1px 2px 0 #707070 inset;
+  border-radius: 4px;
   /*
   overflow: hidden;
   width: 48px;
   font-size: 16pt;
   -webkit-appearance: none;
   border-radius: 0;*/
-
 }
 </style>
