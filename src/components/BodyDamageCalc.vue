@@ -22,7 +22,7 @@
             </td>
           </tr>
           <tr>
-            <th>コードリンク</th>
+            <th>コード攻撃力</th>
             <td>
               <div>
                 <input
@@ -35,20 +35,7 @@
             </td>
           </tr>
           <tr>
-            <th>バフ(%)</th>
-            <td>
-              <div>
-                <input
-                  v-model="inAtackbuf"
-                  type="text"
-                  @input="calcAtk()"
-                  class="input-control"
-                />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>倍率(%)</th>
+            <th>攻撃倍率(%)</th>
             <td>
               <div>
                 <input
@@ -61,7 +48,20 @@
             </td>
           </tr>
           <tr>
-            <th>クリ倍率上昇(%)</th>
+            <th>攻撃力バフ(%)</th>
+            <td>
+              <div>
+                <input
+                  v-model="inAtackbuf"
+                  type="text"
+                  @input="calcAtk()"
+                  class="input-control"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>クリバフ(%)</th>
             <td>
               <div>
                 <input
@@ -88,9 +88,9 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    <!--/div-->
     <!--防御側-->
-    <div class="container-status-enm">
+    <!--div class="container-status-enm"-->
       <table class="table-status">
         <tbody>
           <tr>
@@ -264,11 +264,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* ステータス*/
+/* ステータス */
 .container-status {
+  display: flex;
   padding: 16px 1%;
   text-align: left;
-  float: left;
+ /* float: left; */
 }
 .container-status table{
   border-collapse: separate;
@@ -276,7 +277,7 @@ export default {
   margin: 0 auto;
 }
 .container-status td,th{
-  padding: 5px;
+  padding: 1px;
 }
 .container-status th{
   background: #2695c5fd;
@@ -289,7 +290,7 @@ export default {
 .container-status-enm {
   padding: 16px 1%;
   text-align: left;
-  float: left;
+  /*float: left;*/
 }
 .container-status-enm table{
   border-collapse: separate;
@@ -340,7 +341,22 @@ export default {
 }
 
 input {
+  font: 15px/24px sans-serif;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0.3em;
+	transition: 0.3s;
+	letter-spacing: 1px;
+	color: #2e2d2dd7;
+	border: 1px solid #ffffff;
+	box-shadow: 1px 1px 2px 0 #707070 inset;
+	border-radius: 4px;
+  /*
   overflow: hidden;
-  width: 32px;
+  width: 48px;
+  font-size: 16pt;
+  -webkit-appearance: none;
+  border-radius: 0;*/
+
 }
 </style>
