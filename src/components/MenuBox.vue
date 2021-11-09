@@ -49,7 +49,7 @@
 .hamburger-switch-line1:after {
   width: 25px;
   height: 3px;
-  background: #333; /* ハンバーガーアイコンの色 */
+  background: rgb(236, 231, 231); /* ハンバーガーアイコンの色 */
   position: absolute;
   top: 50%;
   left: 50%;

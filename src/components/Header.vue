@@ -16,13 +16,14 @@
 
 <style scoped>
 header {
-  padding: 20px 10px 10px;
+  padding: 20px 20px 20px;
   position: fixed;
   top: 0;
   width: 95%;
   background-color: #4b4b4b;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
 }
 a#header-title {
   position: relative;
@@ -44,7 +45,7 @@ ul {
   display: flex;
 }
 li {
-  margin: 0 0 0 15px;
+  margin: 0 0 0 100px;
   font-size: 14px;
 }
 nav {
