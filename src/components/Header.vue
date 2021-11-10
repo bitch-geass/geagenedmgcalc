@@ -5,7 +5,7 @@
     </h1>
     <nav class="pc-nav">
       <ul>
-        <li><a href="#">設定</a></li>
+        <!--li><a href="#">設定</a></li-->
       </ul>
     </nav>
   </header>

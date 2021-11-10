@@ -7,8 +7,8 @@
     </label>
     <div class="h-menuwrap">
       <ul class="h-menulist">
-        <li><a href="#">(未)ダメージ計算</a></li>
-        <li><a href="#">(未)防御力計算</a></li>
+        <li><a href="#" @click="clickAtack">ダメージ計算</a></li>
+        <li><a href="#" @click="clickDefense">防御力計算</a></li>
       </ul>
     </div>
     <div class="h-cover"></div>
@@ -17,6 +17,21 @@
 </template>
 
 <script>
+export default {
+      methods: {
+        clickAtack(){ 
+            document.getElementById("hamburger").checked = false;
+            //★子側のデータ渡し口（$emit）
+            this.$emit("switchPage", "atack");
+
+        },
+        clickDefense(){
+           document.getElementById("hamburger").checked = false;
+            //★子側のデータ渡し口（$emit）
+            this.$emit("switchPage", "defense");
+        },
+    }
+}
 </script>
 
 <style scoped>

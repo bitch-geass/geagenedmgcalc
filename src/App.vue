@@ -1,21 +1,48 @@
 <template>
+<div>
   <Header />
-  <Menu />
-  <BodyDmgCalc />
+  <Menu @switchPage="switchPage"/>
+  <BodyDmgCalc v-if="isAtack" />
+  <BodyDefenseCalc v-if="isDefense"/>
+  </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
 import Menu from './components/MenuBox.vue'
 import BodyDmgCalc from './components/BodyDamageCalc.vue'
-
+import BodyDefenseCalc from './components/BodyDefenseCalc.vue'
 export default {
   name: 'App',
   components: {
     Header,
     Menu,
     BodyDmgCalc,
+    BodyDefenseCalc,
+  },
+  data() {
+      return {
+        isAtack: true,
+        isDefense: false,
+      };
+    },
+  methods :{
+    // ページ切り替え
+    switchPage(pagename){
+      switch(pagename){
+        case "atack":
+        default:
+          this.isAtack = true;
+          this.isDefense = false;
+          break;
+        case "defense":    
+          this.isAtack = false;
+          this.isDefense = true;
+            break;
+      }
+    }
   }
+  
 }
 </script>
 

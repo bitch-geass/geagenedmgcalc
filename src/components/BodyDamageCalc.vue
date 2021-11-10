@@ -121,6 +121,7 @@
                   <input
                     v-model="inDfbuf"
                     type="tel"
+                    maxlength="4"
                     @input="calcDf()"
                     class="input-control"
                   />
@@ -134,6 +135,7 @@
                   <input
                     v-model="inDfDebuf"
                     type="tel"
+                    maxlength="3"
                     @input="calcDf()"
                     class="input-control"
                   />
@@ -233,6 +235,9 @@ export default {
         (1 + Number(this.inDfbuf) / 100 - Number(this.inDfDebuf) / 100) *
         Number(this.inDf)
       ).toFixed(1);
+      if(this.defense < 0) { 
+        this.defense = 0;
+      }
       this.calcCoeff();
     },
     calcCoeff() {
@@ -243,7 +248,7 @@ export default {
       var tmpCoeff = atk / (def * 5);
       if (tmpCoeff > 2) {
         tmpCoeff = 2;
-      } else if (this.coeff < 0.1) {
+      } else if (tmpCoeff < 0.1) {
         tmpCoeff = 0.1;
       }
       return tmpCoeff;
