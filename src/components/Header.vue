@@ -1,7 +1,7 @@
 <template>
   <header>
     <h1>
-      <a id="header-title" href="/">ダメージ計算β</a>
+      <a id="header-title" href="/">ギアジェネ計算β</a>
     </h1>
     <nav class="pc-nav">
       <ul>

@@ -52,6 +52,20 @@
               </td>
             </tr>
             <tr>
+              <th>攻撃回数</th>
+              <td>
+                <div>
+                  <input
+                    v-model="inHits"
+                    type="tel"
+                    maxlength="1"
+                    @input="calcDmg()"
+                    class="input-control"
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr>
               <th>攻撃バフ(%)</th>
               <td>
                 <div>
@@ -74,20 +88,6 @@
                     type="tel"
                     maxlength="4"
                     @input="calcCribuf()"
-                    class="input-control"
-                  />
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th>攻撃回数</th>
-              <td>
-                <div>
-                  <input
-                    v-model="inHits"
-                    type="tel"
-                    maxlength="1"
-                    @input="calcDmg()"
                     class="input-control"
                   />
                 </div>
@@ -172,7 +172,6 @@
             <th>係数</th>
             <th>倍率</th>
             <th>クリ倍率</th>
-            <th>回数</th>
           </tr>
         </thead>
         <tbody>
@@ -183,7 +182,6 @@
             </td>
             <td>{{ rate }}</td>
             <td>{{ cribuf }}</td>
-            <td>{{ inHits }}</td>
           </tr>
         </tbody>
       </table>
@@ -195,7 +193,7 @@
 export default {
   data() {
     return {
-      inAtack: 4825,
+      inAtack: 4892,
       inAtackCl: 1800,
       inAtackbuf: 120,
       atackbuf: 0,
@@ -205,7 +203,7 @@ export default {
       inDfDebuf: 0,
       defense: 0,
       coeff: 0,
-      inRate: 505,
+      inRate: 595,
       rate: 0,
       inCribuf: 120,
       cribuf: 0,
@@ -235,7 +233,7 @@ export default {
         (1 + Number(this.inDfbuf) / 100 - Number(this.inDfDebuf) / 100) *
         Number(this.inDf)
       ).toFixed(1);
-      if(this.defense < 0) { 
+      if (this.defense < 0) {
         this.defense = 0;
       }
       this.calcCoeff();
