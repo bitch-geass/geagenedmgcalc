@@ -1,53 +1,24 @@
 <template>
-<div>
-  <Header />
-  <Menu @switchPage="switchPage"/>
-  <BodyDmgCalc v-if="isAtack" />
-  <BodyDefenseCalc v-if="isDefense"/>
+  <div>
+    <Header />
+    <Menu />
+    <!--body-->
+    <router-view id="body"/>
   </div>
 </template>
-
 <script>
-import Header from './components/Header.vue'
-import Menu from './components/MenuBox.vue'
-import BodyDmgCalc from './components/BodyDamageCalc.vue'
-import BodyDefenseCalc from './components/BodyDefenseCalc.vue'
+import Header from '@/components/Header.vue'
+import Menu from '@/components/MenuBox.vue'
 export default {
   name: 'App',
   components: {
     Header,
     Menu,
-    BodyDmgCalc,
-    BodyDefenseCalc,
   },
-  data() {
-      return {
-        isAtack: true,
-        isDefense: false,
-      };
-    },
-  methods :{
-    // ページ切り替え
-    switchPage(pagename){
-      switch(pagename){
-        case "atack":
-        default:
-          this.isAtack = true;
-          this.isDefense = false;
-          break;
-        case "defense":    
-          this.isAtack = false;
-          this.isDefense = true;
-            break;
-      }
-    }
-  }
-  
 }
 </script>
-
 <style>
-#app {
+#body {
   font-family: "Helvetica Neue",
     Arial,
     "Hiragino Kaku Gothic ProN",
@@ -58,8 +29,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: 0;
-  padding: 0;
-  margin-top: 60px;
+  padding-top: 65px; /* 固定ヘッダー分ずらす */
+  box-sizing: border-box;
 }
+
 </style>

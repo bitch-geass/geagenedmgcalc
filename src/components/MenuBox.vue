@@ -10,18 +10,20 @@
         <!--a id="menu-title">ギアジェネ</a-->
         <ul class="h-menulist">
           <hr />
-          <li id="li-home"><a>ホーム</a></li>
+          <router-link id="li-home" to="/" @click="clickLink"
+            >ホーム</router-link
+          >
           <hr />
-          <li id="li-01" class="menu-hover">
-            <a href="#" @click="clickAtack"
-              ><img src="../assets/atack.png" />&nbsp;&nbsp;ダメージ計算</a
-            >
-          </li>
-          <li id="li-02">
-            <a href="#" @click="clickDefense"
-              ><img src="../assets/defense.png" />&nbsp;&nbsp;防御力計算</a
-            >
-          </li>
+          <router-link id="li-01" to="/DmgCalc" @click="clickLink"
+            ><img
+              src="../assets/atack.png"
+            />&nbsp;&nbsp;ダメージ計算</router-link
+          >
+          <router-link id="li-02" to="/DefenseCalc" @click="clickLink"
+            ><img
+              src="../assets/defense.png"
+            />&nbsp;&nbsp;防御力計算</router-link
+          >
           <hr />
         </ul>
       </section>
@@ -34,25 +36,9 @@
 <script>
 export default {
   methods: {
-    applyHoverStyle(idname) {
-      // 選択色の削除と適用
-      var elements = document.getElementsByClassName("menu-hover");
-      if (elements.length > 0) {
-        elements[0].classList.remove("menu-hover"); // どうせ1つなので先頭だけ削除
-      }
-      document.getElementById(idname).classList.add("menu-hover");
-      // ついでにハンバーガーメニューも閉じる
+    clickLink() {
+      // ハンバーガーメニューを閉じる
       document.getElementById("hamburger").checked = false;
-    },
-    clickAtack() {
-      this.applyHoverStyle("li-01");
-      //★子側のデータ渡し口（$emit）
-      this.$emit("switchPage", "atack");
-    },
-    clickDefense() {
-      this.applyHoverStyle("li-02");
-      //★子側のデータ渡し口（$emit）
-      this.$emit("switchPage", "defense");
     },
   },
 };
@@ -115,10 +101,6 @@ export default {
   transform: rotate(-45deg) translate(-40%, -325%);
 }
 /* メニューエリア･アニメーション */
-/* 右から */
-#hamburger:checked ~ .h-menuwrap {
-  right: 60%;
-}
 /* コンテンツカバー */
 #hamburger:checked ~ .h-cover {
   position: fixed;
@@ -130,7 +112,10 @@ export default {
   background: rgba(3, 3, 3, 0.5);
   display: block;
 }
-
+/* 左(負の数字から0へ)から */
+#hamburger:checked ~ .h-menuwrap {
+  left: 0px;
+}
 /* メニューエリア */
 .h-menuwrap {
   position: fixed;
@@ -141,8 +126,8 @@ export default {
   transition: 0.3s;
   overflow-y: scroll; /* メニュー内容が多い場合に縦スクロールする */
   top: 0;
-  right: 100%;
-  width: 40%;
+  left: -200px;
+  width: 200px;
 }
 /* メニューリスト */
 .h-menulist {
@@ -150,32 +135,31 @@ export default {
   padding-left: 0% !important; /* !important不要な場合もあり */
   list-style: none;
 }
-/* MENU 選択時の色 */
-.menu-hover {
-  background-color: rgba(255, 255, 255, 0.24);
-  color: white;
-}
-.h-menulist li a {
+.h-menulist a {
   display: block;
   text-decoration: none;
   color: #fff; /* メニューリストの文字色 */
   text-align: left;
-  padding: 0 0 0 20px;
+  padding: 0 0 0 10px;
   line-height: 40px;
 }
-.h-menulist li a img {
-  transform: translateX(-50%);
-  transform: translateY(30%);
+.h-menulist img {
+  transform: translateX(-50%); /* これ動作していない */
+  transform: translateY(30%); /* 右側の文字と高さを合わせるため */
   width: 30px;
 }
 .h-menulist hr {
   border-width: 1px 0 0 0;
   margin: 5px 0;
 }
-#li-home a {
+#li-home {
   /*font-size: 20px;*/
   color: #fff; /* メニューリストの文字色 */
   text-align: center;
   padding: 0;
+}
+/* リンクがアクティブな時のスタイル */
+.router-link-active {
+  background-color: rgba(255, 255, 255, 0.24);
 }
 </style>

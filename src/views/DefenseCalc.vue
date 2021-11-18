@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div>
     <!--攻撃側-->
-    <form>
+    <div id="status">
       <div class="container-status">
         <table class="table-status">
           <colgroup>
@@ -109,7 +109,7 @@
           </tbody>
         </table>
       </div>
-    </form>
+    </div>
     <!--計算防御力-->
     <div class="container-calc">
       <table class="table-calc">
@@ -174,95 +174,25 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.app {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-}
-/* ステータス */
-.container-status {
-  display: inline-block;
-  padding: 16px 1% 0px;
-  text-align: left;
-}
-.container-status table {
-  border-collapse: separate;
-  border-spacing: 0px 1px;
-  margin: 0 auto;
-}
-.container-status td,
-th {
-  padding: 1px;
-  width: 60px;
-}
-.container-status th {
-  background: #2695c5fd;
-  color: #fff;
-  width: 100px;
-}
-.container-status td {
-  background: #f1fafe;
-}
-/* 敵ステータステーブル */
-.container-status-enm {
-  display: inline-block;
-  padding: 16px 1% 0px;
-  text-align: left;
-  vertical-align: top;
-}
-.container-status-enm table {
-  border-collapse: separate;
-  border-spacing: 0px 1px;
-  margin: 0 auto;
-}
-.container-status-enm td,
-th {
-  padding: 1px;
-  width: 100px;
-}
-.container-status-enm th {
-  background: #e97b93fd;
-  color: #fff;
-  width: 100px;
-}
-.container-status-enm td {
-  background: #f1fafe;
-}
-
-/* 計算テーブル */
-.container-calc {
-  padding: 1px 1%;
-  text-align: center;
-}
-.container-calc table {
-  align-content: left;
-  border-collapse: separate;
-  border-spacing: 0px 1px;
-  margin: 0 auto;
+/* テーブルのスタイル全体 */
+* table {
   table-layout: auto;
-  white-space: nowrap;
+  white-space: nowrap; /* 自動改行しない */
 }
-.container-calc td,
-th {
-  padding: 5px;
+* th,td {
+  vertical-align: middle;
+  word-wrap: normal;
+  padding: 1px;
 }
-.container-calc th {
+* th {
   background: #0a101385;
-  color: #fff;
+  color: white;
+  padding: 1px 4px 0 4px;
 }
-.container-calc td {
+* td {
   background: #f1fafe;
 }
-
-.table {
-  table-layout: fixed;
-}
-.table tr td {
-  vertical-align: middle;
-  word-wrap: break-word;
-}
-
-input {
+* input {
   font: 15px/24px sans-serif;
   box-sizing: border-box;
   width: 100%;
@@ -273,11 +203,43 @@ input {
   border: 1px solid #ffffff;
   box-shadow: 1px 1px 2px 0 #707070 inset;
   border-radius: 4px;
-  /*
-  overflow: hidden;
-  width: 48px;
-  font-size: 16pt;
-  -webkit-appearance: none;
-  border-radius: 0;*/
+}
+/* ステータス入力テーブルのスタイル */
+#status {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+/* ステータス */
+.container-status {
+  display: inline-block;
+  text-align: left;
+}
+/* ヘッダーのスタイル */
+.container-status th {
+  background: #2695c5fd;
+  color: #fff;
+  width: 110px;
+}
+/* セルのスタイル */
+.container-status td {
+  background: #f1fafe;
+  width: 60px;
+}
+
+/* 敵ステータステーブル */
+.container-status-enm {
+  display: inline-block;
+  text-align: left;
+  vertical-align: top;
+}
+.container-status-enm th {
+  background: #e97b93fd;
+  color: #fff;
+  width: 100px;
+}
+.container-status-enm td {
+  background: #f1fafe;
+  width: 60px;
 }
 </style>
