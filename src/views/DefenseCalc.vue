@@ -132,6 +132,7 @@
 
 <script>
 export default {
+  title: '防御力計算',
   data() {
     return {
       inAtack: 1376,

@@ -115,7 +115,7 @@
               </td>
             </tr>
             <tr>
-              <th>防御バフ(%)</th>
+              <th>防バフ(%)</th>
               <td>
                 <div>
                   <input
@@ -129,7 +129,7 @@
               </td>
             </tr>
             <tr>
-              <th>防御デバフ(%)</th>
+              <th>防デバフ(%)</th>
               <td>
                 <div>
                   <input
@@ -145,6 +145,19 @@
             <tr>
               <th>実防御力</th>
               <td>{{ defense }}</td>
+            </tr>
+            <tr>
+              <th>属性有利</th>
+              <td>
+                <div>
+                  <input
+                    v-model="inIsAdvantage"
+                    type="checkbox"
+                    @change="calcDmg()"
+                    class="checkbox"
+                  />
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -189,19 +202,21 @@
 
 <script>
 export default {
+  title: 'ダメージ計算',
   data() {
     return {
-      inAtack: 4892,
+      inAtack: 6600,
       inAtackCl: 1800,
-      inAtackbuf: 120,
+      inAtackbuf: 131,
       atackbuf: 0,
       atkSum: 0,
-      inDf: 3950,
+      inDf: 4350,
       inDfbuf: 0,
       inDfDebuf: 0,
+      inIsAdvantage: true,
       defense: 0,
       coeff: 0,
-      inRate: 595,
+      inRate: 550,
       rate: 0,
       inCribuf: 120,
       cribuf: 0,
@@ -272,6 +287,10 @@ export default {
           this.getCoeff(this.atkSum, this.defense) *
           this.getRate(this.inRate)) /
         this.inHits;
+      
+      if(this.inIsAdvantage){
+        tmpDmg = tmpDmg * 1.5;
+      }
       this.dmg = this.getDmgRange(tmpDmg);
       this.cridmg = this.getDmgRange(tmpDmg * this.getCribuf(this.inCribuf));
     },
@@ -310,7 +329,7 @@ export default {
   font: 15px/24px sans-serif;
   box-sizing: border-box;
   width: 100%;
-  padding: 0.3em;
+  padding: 0.2em;
   transition: 0.3s;
   letter-spacing: 1px;
   color: #2e2d2dd7;
@@ -333,7 +352,7 @@ export default {
 .container-status th {
   background: #2695c5fd;
   color: #fff;
-  width: 110px;
+  width: 100px;
 }
 /* セルのスタイル */
 .container-status td {
@@ -355,5 +374,13 @@ export default {
 .container-status-enm td {
   background: #f1fafe;
   width: 60px;
+}
+.checkbox {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 30px;
+    position: relative;
+    width: auto;
 }
 </style>
